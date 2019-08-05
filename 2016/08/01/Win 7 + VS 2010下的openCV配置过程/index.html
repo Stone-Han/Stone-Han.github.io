@@ -1,0 +1,897 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="教程,openCV,win10,VS2010,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="参考：http://johnhany.net/2013/11/environment-for-opencv-with-vs2010/#stdafx.h 永久性配置方法参考：http://wenku.baidu.com/link?url=bLs235VYW-ni3pqD5Ug_JwYcOIXb51i4BgGNW22AdLtvY7h6neFJDP4Ho2Ocp9rgVtlwR6edTcBNs7hcmc">
+<meta name="keywords" content="教程,openCV,win10,VS2010">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win 10 + VS 2010下的openCV配置过程">
+<meta property="og:url" content="http://yoursite.com/2016/08/01/Win 7 + VS 2010下的openCV配置过程/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="参考：http://johnhany.net/2013/11/environment-for-opencv-with-vs2010/#stdafx.h 永久性配置方法参考：http://wenku.baidu.com/link?url=bLs235VYW-ni3pqD5Ug_JwYcOIXb51i4BgGNW22AdLtvY7h6neFJDP4Ho2Ocp9rgVtlwR6edTcBNs7hcmc">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/7f318987gw1fa2c1h9dlrj20ae09u0tr.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/7f318987gw1fa2c2atefgj20fe09tmyd.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/7f318987jw1fa2c2vfizjj20fe0d20tp.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/7f318987jw1fa2c3bcne1j20fe0d2758.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/7f318987gw1fa2c3v95saj20fe05p3z9.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/7f318987gw1fa2c4497kbj20fe0b1myi.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/7f318987gw1fa2c786awbj20fe0az40o.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/7f318987gw1fa2c7s8nraj20fe0az0up.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7f318987gw1fa2c876dujj20fe0az40g.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7f318987gw1fa2c8mzovuj20f209et9n.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/7f318987gw1fa2c8yngf7j20fe0a2gmd.jpg">
+<meta property="og:updated_time" content="2016-11-23T13:13:10.752Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Win 10 + VS 2010下的openCV配置过程">
+<meta name="twitter:description" content="参考：http://johnhany.net/2013/11/environment-for-opencv-with-vs2010/#stdafx.h 永久性配置方法参考：http://wenku.baidu.com/link?url=bLs235VYW-ni3pqD5Ug_JwYcOIXb51i4BgGNW22AdLtvY7h6neFJDP4Ho2Ocp9rgVtlwR6edTcBNs7hcmc">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/7f318987gw1fa2c1h9dlrj20ae09u0tr.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/01/Win 7 + VS 2010下的openCV配置过程/">
+
+
+  <title> Win 10 + VS 2010下的openCV配置过程 | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Win 10 + VS 2010下的openCV配置过程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-01T16:01:09+08:00" content="2016-08-01">
+              2016-08-01
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/教程/" itemprop="url" rel="index">
+                    <span itemprop="name">教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考：<a href="http://johnhany.net/2013/11/environment-for-opencv-with-vs2010/#stdafx.h" target="_blank" rel="noopener">http://johnhany.net/2013/11/environment-for-opencv-with-vs2010/#stdafx.h</a></p>
+<p>永久性配置方法参考：<br><a href="http://wenku.baidu.com/link?url=bLs235VYW-ni3pqD5Ug_JwYcOIXb51i4BgGNW22AdLtvY7h6neFJDP4Ho2Ocp9rgVtlwR6edTcBNs7hcmcC4x9PpgCWavkrBPf_ToLJIog_" target="_blank" rel="noopener">http://wenku.baidu.com/link?url=bLs235VYW-ni3pqD5Ug_JwYcOIXb51i4BgGNW22AdLtvY7h6neFJDP4Ho2Ocp9rgVtlwR6edTcBNs7hcmcC4x9PpgCWavkrBPf_ToLJIog_</a></p>
+<a id="more"></a>
+
+<h1 id="1-1-本机配置"><a href="#1-1-本机配置" class="headerlink" title="1.1 本机配置"></a>1.1 本机配置</h1><pre><code>Windows 7 旗舰版 x86
+Visual Studio 2010 旗舰版
+OpenCV 2.4.10</code></pre><h1 id="1-2-下载解压OpenCV"><a href="#1-2-下载解压OpenCV" class="headerlink" title="1.2 下载解压OpenCV"></a>1.2 下载解压OpenCV</h1><p>可以在<a href="http://opencv.org/downloads.html" target="_blank" rel="noopener">官网</a>下载最新版<br>下载后解压到</p>
+<blockquote>
+<p>D:\software\opencv</p>
+</blockquote>
+<h1 id="1-3设置环境变量"><a href="#1-3设置环境变量" class="headerlink" title="1.3设置环境变量"></a>1.3设置环境变量</h1><p>开始-&gt;计算机(右击)-&gt;属性-&gt;高级系统设置-&gt;高级-&gt;环境变量，在用户变量里增加一项：</p>
+<pre><code>变量名：path
+变量值：D:\software\opencv\build\x86\vc10\bin</code></pre><p>如果已经有path项，在其变量值结尾添加英文分号“;”，再加上上面那个值。<br>这里的“x86”代表目标程序是32位的，如果要写64位的程序则选择“x64”文件夹。并不是根据开发环境（你的机器）选择的。<br>后面的“vc10”代表使用Visual C++ 2010开发。<br><img src="http://ww1.sinaimg.cn/large/7f318987gw1fa2c1h9dlrj20ae09u0tr.jpg" alt></p>
+<p>注销用户，重新登录Windows，保证环境变量更新并起作用。</p>
+<h1 id="1-4创建并配置工程"><a href="#1-4创建并配置工程" class="headerlink" title="1.4创建并配置工程"></a>1.4创建并配置工程</h1><p>打开Visual Studio 2010，新建一个工程，选择Visual C++ -&gt;Win32-&gt;Win32 Console Application，命名例如“OpencvTest”，点击确定。<br><img src="http://ww4.sinaimg.cn/large/7f318987gw1fa2c2atefgj20fe09tmyd.jpg" alt></p>
+<p>点击  下一步</p>
+<p><img src="http://ww3.sinaimg.cn/large/7f318987jw1fa2c2vfizjj20fe0d20tp.jpg" alt></p>
+<p>选择 控制台应用程序 和 预编译头 。点击 完成 。</p>
+<p><img src="http://ww3.sinaimg.cn/large/7f318987jw1fa2c3bcne1j20fe0d2758.jpg" alt></p>
+<p>由于每次新建一个opencv项目都需要重新配置“VC++目录”中的“包含目录”和“库目录”，以及“链接器”中的“附加依赖项”。所以下面用<strong>永久性配置</strong>opencv环境的方法。</p>
+<p>打开上面建好的工程，打开 视图-&gt;其他窗口-&gt;属性管理器。</p>
+<p>展开树形，发现一个“Microsoft.Cpp.Win32.user”的项目：<br><img src="http://ww4.sinaimg.cn/large/7f318987gw1fa2c3v95saj20fe05p3z9.jpg" alt></p>
+<p>右击点开 属性</p>
+<p><img src="http://ww1.sinaimg.cn/large/7f318987gw1fa2c4497kbj20fe0b1myi.jpg" alt></p>
+<p>左侧选择“VC++目录”，右侧新增“包含目录”</p>
+<p>添加以下三项：</p>
+<pre><code>D:\software\opencv\build\include
+D:\software\opencv\build\include\opencv
+D:\software\opencv\build\include\opencv2</code></pre><p><img src="http://ww1.sinaimg.cn/large/7f318987gw1fa2c786awbj20fe0az40o.jpg" alt></p>
+<p>其实只需要填入第一行即可。由于“include\opencv”包含C版本的头文件，“include\opencv2”包含C++版本的头文件。所以编写代码时，在头文件名称前加上“opencv/”或“opencv2/”来区分两种版本。<br>在“库目录”中增加一项：</p>
+<pre><code>E:\softwares\opencv\build\x86\vc10\lib</code></pre><p><img src="http://ww1.sinaimg.cn/large/7f318987gw1fa2c7s8nraj20fe0az0up.jpg" alt></p>
+<p>选择链接器-&gt;输入，在附加依赖项中增加：<br>（2410表示opencv版本号，d表示debug）</p>
+<pre><code>opencv_calib3d2410d.lib
+opencv_contrib2410d.lib
+opencv_core2410d.lib
+opencv_features2d2410d.lib
+opencv_flann2410d.lib
+opencv_gpu2410d.lib
+opencv_highgui2410d.lib
+opencv_imgproc2410d.lib
+opencv_legacy2410d.lib
+opencv_ml2410d.lib
+opencv_objdetect2410d.lib
+opencv_ts2410d.lib
+opencv_video2410d.lib</code></pre><p><img src="http://ww2.sinaimg.cn/large/7f318987gw1fa2c876dujj20fe0az40g.jpg" alt></p>
+<p>其中各个模块的功能可以参考：</p>
+<p><a href="http://docs.opencv.org/2.4/modules/core/doc/intro.html" target="_blank" rel="noopener">http://docs.opencv.org/2.4/modules/core/doc/intro.html</a></p>
+<p>如果需要Release功能，在属性管理器中重复上面的配置。附加依赖项中去掉每项后面的d。</p>
+<pre><code>opencv_calib3d2410.lib
+opencv_contrib2410.lib
+opencv_core2410.lib
+opencv_features2d2410.lib
+opencv_flann2410.lib
+opencv_gpu2410.lib
+opencv_highgui2410.lib
+opencv_imgproc2410.lib
+opencv_legacy2410.lib
+opencv_ml2410.lib
+opencv_objdetect2410.lib
+opencv_ts2410.lib
+opencv_video2410.lib</code></pre><p><img src="http://ww2.sinaimg.cn/large/7f318987gw1fa2c8mzovuj20f209et9n.jpg" alt></p>
+<h1 id="1-5编程测试"><a href="#1-5编程测试" class="headerlink" title="1.5编程测试"></a>1.5编程测试</h1><pre><code>#include &quot;stdafx.h&quot;
+#include &quot;opencv2/opencv.hpp&quot;
+using namespace std;
+using namespace cv;
+
+int main(int argc, char* argv[])
+{
+const char* imagename = &quot;D:\\lena.jpg&quot;;
+//从文件中读入图像
+Mat img = imread(imagename);
+//如果读入图像失败
+if(img.empty())
+{
+fprintf(stderr, &quot;Can not load image %s\n&quot;, imagename);
+return -1;
+}
+
+//显示图像
+imshow(&quot;image&quot;, img);
+
+//此函数等待按键，按键盘任意键就返回
+waitKey();
+
+return 0;
+}</code></pre><p>程序结果：</p>
+<p><img src="http://ww3.sinaimg.cn/large/7f318987gw1fa2c8yngf7j20fe0a2gmd.jpg" alt></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/教程/" rel="tag">#教程</a>
+          
+            <a href="/tags/openCV/" rel="tag">#openCV</a>
+          
+            <a href="/tags/win10/" rel="tag">#win10</a>
+          
+            <a href="/tags/VS2010/" rel="tag">#VS2010</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/30/洒鸡汤的方式简单点-大学四年应该如何度过/" rel="next" title="撒鸡汤的方式简单点-大学四年应该如何度过">
+                <i class="fa fa-chevron-left"></i> 撒鸡汤的方式简单点-大学四年应该如何度过
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/12/GLPK的安装及glpsol的使用/" rel="prev" title="GLPK的安装及glpsol的使用">
+                GLPK的安装及glpsol的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-本机配置"><span class="nav-number">1.</span> <span class="nav-text">1.1 本机配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-下载解压OpenCV"><span class="nav-number">2.</span> <span class="nav-text">1.2 下载解压OpenCV</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3设置环境变量"><span class="nav-number">3.</span> <span class="nav-text">1.3设置环境变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4创建并配置工程"><span class="nav-number">4.</span> <span class="nav-text">1.4创建并配置工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-5编程测试"><span class="nav-number">5.</span> <span class="nav-text">1.5编程测试</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

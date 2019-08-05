@@ -1,0 +1,867 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="C++,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="这一部分主要介绍C++面向对象，多个类之间的关系。另外介绍了虚函数及其实现机制和一些设计模式。  Inheritance 继承 is-a Composition 复合 has-a Delegation 委托">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习笔记2-类之间的关系">
+<meta property="og:url" content="http://yoursite.com/2018/04/20/C++学习笔记2/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="这一部分主要介绍C++面向对象，多个类之间的关系。另外介绍了虚函数及其实现机制和一些设计模式。  Inheritance 继承 is-a Composition 复合 has-a Delegation 委托">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/YNH6ZB6.png">
+<meta property="og:image" content="https://i.imgur.com/pxxKYNT.png">
+<meta property="og:image" content="https://i.imgur.com/6kIzYZg.png">
+<meta property="og:image" content="https://i.imgur.com/LxDL5nW.png">
+<meta property="og:image" content="https://i.imgur.com/Ukuf8L1.png">
+<meta property="og:image" content="https://i.imgur.com/nPyXsxl.png">
+<meta property="og:image" content="https://i.imgur.com/9YnCa2K.png">
+<meta property="og:image" content="https://i.imgur.com/LxDL5nW.png">
+<meta property="og:updated_time" content="2018-08-28T08:21:22.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习笔记2-类之间的关系">
+<meta name="twitter:description" content="这一部分主要介绍C++面向对象，多个类之间的关系。另外介绍了虚函数及其实现机制和一些设计模式。  Inheritance 继承 is-a Composition 复合 has-a Delegation 委托">
+<meta name="twitter:image" content="https://i.imgur.com/YNH6ZB6.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/20/C++学习笔记2/">
+
+
+  <title> C++学习笔记2-类之间的关系 | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C++学习笔记2-类之间的关系
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-20T18:25:09+08:00" content="2018-04-20">
+              2018-04-20
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一部分主要介绍C++面向对象，多个类之间的关系。另外介绍了虚函数及其实现机制和一些设计模式。</p>
+<ul>
+<li>Inheritance 继承 is-a</li>
+<li>Composition 复合 has-a</li>
+<li>Delegation 委托</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="Composition-复合-has-a"><a href="#Composition-复合-has-a" class="headerlink" title="Composition 复合 has-a"></a>Composition 复合 has-a</h1><pre><code>class queue
+{
+    ...
+protected:
+    deque&lt;T&gt; c;
+public:
+    void pop() {c.pop_front();}
+
+};</code></pre><p>类queue是一个队列，deque是双向队列，比queue功能强大。这里设计queue包含deque，所以是has-a，这种设计模式又叫做adapter.</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p><img src="https://i.imgur.com/YNH6ZB6.png" alt></p>
+<p><strong>构造由内而外</strong>：Container::Container(): Component(){…};    //默认调用默认构造函数</p>
+<p><strong>析构由外而内</strong>：Container::Container(){… ~Component()};</p>
+<h2 id="Delegation-composion-by-reference"><a href="#Delegation-composion-by-reference" class="headerlink" title="Delegation-composion by reference"></a>Delegation-composion by reference</h2><pre><code>String 
+{
+    StringRep* rep;
+}</code></pre><p>一个类有另一个类的指针。复合的生命是同步的，有了A就有B，但是委托的生命不是同步的，当需要调用b的时候b才会生成。这种写法叫做pimpl(pointer to implementation或者handle/body)。这种方法的好处是，String类的具体实现可以不同，但是接口都一样，所以客户端不变，实现方法可以变化。</p>
+<p><img src="https://i.imgur.com/pxxKYNT.png" alt></p>
+<p>上面这个例子的图示如上，每生成一个String类，都会增加一个reference counting，共享空间。如果a要改变数据，会单独拷贝一份数据给a。</p>
+<h1 id="Inheritance-is-a"><a href="#Inheritance-is-a" class="headerlink" title="Inheritance is-a"></a>Inheritance is-a</h1><pre><code>struct _List_node_base
+{
+    _List_node_base* _M_next;
+    _List_node_base* _M_prev;
+};
+
+template&lt;typename _Tp&gt;
+struct _List_node
+    :public _List_node_base
+{
+    _Tp _M_data;
+}</code></pre><p><img src="https://i.imgur.com/6kIzYZg.png" alt></p>
+<p><strong>构造由内而外，析构由外而内</strong></p>
+<p>*<em>base class 的dtor必须是virtual，否则会出现undefined behavior *</em></p>
+<h2 id="inheritance-with-virtual-function"><a href="#inheritance-with-virtual-function" class="headerlink" title="inheritance with virtual function"></a>inheritance with virtual function</h2><ol>
+<li>non-virtual函数 :不希望derived class重新定义它</li>
+<li>virtual函数：希望derived class 重新定义它(override)，并且对它已经有默认定义。</li>
+<li>pure virtual:希望derived class一定要重写它，并且没有默认定义。</li>
+</ol>
+<p>举例：<br>    class Shape{</p>
+<pre><code>public:
+virtual void draw() const=0;     //pure virtual
+virtual void error(const std::string&amp; msg);    //impure virtual
+int objectID() const;    //non-virtual
+
+}</code></pre><p>应用：<strong>Template Method</strong>(先搭出来一套框架，具体实现延迟到应用再实现)<br><img src="https://i.imgur.com/LxDL5nW.png" alt></p>
+<p>如上图，对于打开文件这个动作，可以先设计一套框架，但是对于serialize这个函数，父类无法实现，于是声明为虚函数。当调用的时候，子类的指针调用父类的函数，但是具体实现是用的子类复写的方法。过程见灰色的线。</p>
+<h2 id="Inheritance-Composition"><a href="#Inheritance-Composition" class="headerlink" title="Inheritance+Composition"></a>Inheritance+Composition</h2><p><img src="https://i.imgur.com/Ukuf8L1.png" alt></p>
+<h2 id="Delegation-Inheritance"><a href="#Delegation-Inheritance" class="headerlink" title="Delegation+Inheritance"></a>Delegation+Inheritance</h2><h3 id="Observer模式"><a href="#Observer模式" class="headerlink" title="Observer模式"></a><strong>Observer模式</strong></h3><p><img src="https://i.imgur.com/nPyXsxl.png" alt></p>
+<h3 id="composite模式"><a href="#composite模式" class="headerlink" title="composite模式"></a>composite模式</h3><h3 id="prototype模式"><a href="#prototype模式" class="headerlink" title="prototype模式"></a>prototype模式</h3><h1 id="对象模型"><a href="#对象模型" class="headerlink" title="对象模型"></a>对象模型</h1><h2 id="vptr和vtbl"><a href="#vptr和vtbl" class="headerlink" title="vptr和vtbl"></a>vptr和vtbl</h2><p><img src="https://i.imgur.com/9YnCa2K.png" alt></p>
+<p>静态绑定：call XXX<br>动态绑定满足3个条件：</p>
+<ol>
+<li>通过指针</li>
+<li>向上转型</li>
+<li>调用虚函数</li>
+</ol>
+<p>由于指针不确定，所以称为动态绑定。  </p>
+<p>看图中3个类的继承关系A&lt;-B&lt;-C, A中有两个虚函数，两个非虚函数。 B继承了A，所以也有两个虚函数，但是对其中一个虚函数进行了重写。同样C也是。所以这里一共有8个函数。如图所示。这里对虚函数的继承是指的对调用权的继承，具体的机制是，每个类都有一个虚指针，指向一个虚表，虚表中存放所有虚函数的地址。具体的调用形式见图上下方。</p>
+<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><p><img src="https://i.imgur.com/LxDL5nW.png" alt></p>
+<p><code>myDoc.OnFileOpen()</code>在调用的时候会传一个参数this，这里this指的就是myDoc这个子类的对象。然后调用<code>OnFileOpen()</code>的时候会把这个指针传到函数中，这个函数中所有的调用都变成了<code>this-&gt;XXX()</code>，当调用<code>Serialize()</code>的时候，转换成<code>(*(this-vptr)[n])(this)</code>这种形式，动态绑定子类的Serialize()函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/15/C++学习笔记/" rel="next" title="C++学习笔记1--类">
+                <i class="fa fa-chevron-left"></i> C++学习笔记1--类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/25/C++学习笔记3/" rel="prev" title="C++学习笔记3--类">
+                C++学习笔记3--类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Composition-复合-has-a"><span class="nav-number">1.</span> <span class="nav-text">Composition 复合 has-a</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">1.1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Delegation-composion-by-reference"><span class="nav-number">1.2.</span> <span class="nav-text">Delegation-composion by reference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inheritance-is-a"><span class="nav-number">2.</span> <span class="nav-text">Inheritance is-a</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#inheritance-with-virtual-function"><span class="nav-number">2.1.</span> <span class="nav-text">inheritance with virtual function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inheritance-Composition"><span class="nav-number">2.2.</span> <span class="nav-text">Inheritance+Composition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Delegation-Inheritance"><span class="nav-number">2.3.</span> <span class="nav-text">Delegation+Inheritance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Observer模式"><span class="nav-number">2.3.1.</span> <span class="nav-text">Observer模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#composite模式"><span class="nav-number">2.3.2.</span> <span class="nav-text">composite模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prototype模式"><span class="nav-number">2.3.3.</span> <span class="nav-text">prototype模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象模型"><span class="nav-number">3.</span> <span class="nav-text">对象模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vptr和vtbl"><span class="nav-number">3.1.</span> <span class="nav-text">vptr和vtbl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this指针"><span class="nav-number">3.2.</span> <span class="nav-text">this指针</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

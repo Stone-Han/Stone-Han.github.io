@@ -1,0 +1,909 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="网络,压力测试,webbench,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="本文的主要内容：  select函数 poll函数 epoll函数">
+<meta name="keywords" content="网络,压力测试,webbench">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux网络编程-select&#x2F;poll&#x2F;epoll">
+<meta property="og:url" content="http://yoursite.com/2018/05/19/linux网络编程/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="本文的主要内容：  select函数 poll函数 epoll函数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/e9HRJiX.png">
+<meta property="og:image" content="https://i.imgur.com/e4UJgox.png">
+<meta property="og:image" content="https://i.imgur.com/D1AxEGD.png">
+<meta property="og:image" content="https://i.imgur.com/dPFOJnm.png">
+<meta property="og:image" content="https://i.imgur.com/YZ7XVh9.png">
+<meta property="og:image" content="https://i.imgur.com/cQATzRo.png">
+<meta property="og:image" content="https://i.imgur.com/jgndMbn.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/19/linux网络编程/img/20180828214605.png">
+<meta property="og:updated_time" content="2018-08-28T14:41:00.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux网络编程-select&#x2F;poll&#x2F;epoll">
+<meta name="twitter:description" content="本文的主要内容：  select函数 poll函数 epoll函数">
+<meta name="twitter:image" content="https://i.imgur.com/e9HRJiX.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/19/linux网络编程/">
+
+
+  <title> linux网络编程-select/poll/epoll | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linux网络编程-select/poll/epoll
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-19T18:25:09+08:00" content="2018-05-19">
+              2018-05-19
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文的主要内容：</p>
+<ul>
+<li>select函数</li>
+<li>poll函数</li>
+<li>epoll函数</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p><strong>高并发的程序一般使用同步非阻塞模式，而不是多线程+同步阻塞模式.</strong>这是因为如果采用多线程，server需要自己监听客户端的连接请求。此时可以采用多路I/O转接服务器。也就是利用内核监听客户端请求。当有请求连接的时候server再去建立连接。但是连接建立好之后还需要等待用户数据，把这个部分也可以交给内核。避免了服务器的阻塞，服务器可以去做其他事情。</p>
+<p><img src="https://i.imgur.com/e9HRJiX.png" alt="多路I/O转接"></p>
+<h1 id="select函数原型"><a href="#select函数原型" class="headerlink" title="select函数原型"></a>select函数原型</h1><pre><code>int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval timeout)</code></pre><ul>
+<li>第一个参数：所监听的所有文件描述符中，最大的文件描述符+1</li>
+<li>第2/3/4个参数：fd_set是文件描述符的集合，是一个bitmap。所监听的文件描述符“可读/可写/异常”事件。</li>
+<li>第5个参数：设定监听的时长。</li>
+<li>返回值：成功：返回监听的所有集合中，满足条件的总数；失败返回-1.</li>
+</ul>
+<p>假如读：1,2 写：2,3,4 异常3 其中1；2，3；1,2监听成功，返回总数5.</p>
+<h2 id="四个函数"><a href="#四个函数" class="headerlink" title="四个函数"></a>四个函数</h2><p>如何将文件描述符加入到fd_set呢？有下面四个函数：</p>
+<ul>
+<li><code>void FD_ZERO(fd_set *set);</code> 将set清空为0</li>
+<li><code>void FD_CLR(int fd, fd_set *set);</code>将fd在对应的set中清0</li>
+<li><code>void FD_SET(int fd, fd_set *set);</code>将fd对应置1</li>
+<li><code>void FD_ISSET(int fd, fd_set *set);</code>判断fd是否在set中</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><pre><code>fd_set readfds;
+FD_ZERO(&amp;readfds);
+FD_SET(fd1,&amp;readfds);
+n = select();-----&gt;返回总数
+for(;n;)
+{
+    //判断fd是否在readfds/writefds/exceptfds中
+    FD_ISSET(fd1,&amp;readfds);
+}</code></pre><h2 id="select函数的缺点"><a href="#select函数的缺点" class="headerlink" title="select函数的缺点"></a>select函数的缺点</h2><ol>
+<li>同时监听的文件描述符最大为1024</li>
+<li>当满足监听条件的文件描述符比较少的时候，判断是哪个文件描述符需要遍历所有的文件描述符集合。比如文件描述符有1024个，select返回值为2，此时就要从0到1023依次遍历，判断哪个满足条件。有时会自定义一个数组，把监听的文件描述符放在数组中，最后只需要遍历这个数组就可以。但是这需要用户自己定义。</li>
+<li>监听集合和满足监听条件的集合是一个集合，如下图，监听4个文件描述符，最后返回lfd和fd3是满足条件的。因此每次修改的时候将原有集合保存。</li>
+</ol>
+<p><img src="https://i.imgur.com/e4UJgox.png" alt></p>
+<h2 id="服务器源码实现"><a href="#服务器源码实现" class="headerlink" title="服务器源码实现"></a>服务器源码实现</h2><p><img src="https://i.imgur.com/D1AxEGD.png" alt><br><img src="https://i.imgur.com/dPFOJnm.png" alt><br><img src="https://i.imgur.com/YZ7XVh9.png" alt><br><img src="https://i.imgur.com/cQATzRo.png" alt></p>
+<p>client数组存放所有被监听过的文件描述符<br>allset用来暂存，rset存放读事件集合。</p>
+<p>假设此时有个c5请求相应，同时fd2和fd4请求发送数据。首先在Line43的while(1)循环中，调用select，返回此时请求总个数3.然后读新的请求c5，把fd5放入client中。此时判断nready不为0，所以进入while下面的for循环中，表示读取数据。读数据时先判断是哪个请求，读完之后清除对应标记。然后再处理下一个请求。下面是模拟请求的一个过程。</p>
+<p><img src="https://i.imgur.com/jgndMbn.png" alt></p>
+<h1 id="poll函数"><a href="#poll函数" class="headerlink" title="poll函数"></a>poll函数</h1><h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>相比select函数的优点：</p>
+<ul>
+<li>突破1024的限制(ulimit -a查看)</li>
+<li>监听、返回集合的分离</li>
+<li>搜索的范围变小</li>
+</ul>
+<p>可以使用cat命令查看一个进程可以打开的socket描述符上限。</p>
+<pre><code>cat /proc/sys/fs/file-max</code></pre><p>如果有需要可以修改配置文件：</p>
+<pre><code>sudo vi /etc/security/limits.conf
+* soft nofile 65536
+* hard nofile 100000</code></pre><p>缺点：<br>监听1000个，返回3个，还是要依次遍历1000个来判断是哪个文件描述符。</p>
+<h2 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h2><pre><code>int poll(struct pollfd *fds,nfds_t nfds, int timeout);
+
+struct pollfd
+{
+    int fd;
+    short events;
+    short revents;
+};</code></pre><ul>
+<li>fds表示数组的首地址</li>
+<li>nfds表示数组长度</li>
+<li>timeout是时间，单位毫秒，-1表示永久等待，0表示不等待</li>
+<li>events有三种类型：POLLIN/POLLOUT/POLLERR</li>
+<li>revents的类型由函数自己定义</li>
+</ul>
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><pre><code>struct pollfd fds[5000];
+fds[0].fd=listenfd;
+fds[0].events=POLLIN;
+poll(fds,5,-1);</code></pre><h1 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h1><p>优点：</p>
+<ul>
+<li>能够修改描述符上限</li>
+<li>监听少量文件描述符时能够返回对应的描述符，不用检索所有被监听的描述符</li>
+</ul>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create()"></a>epoll_create()</h3><pre><code>int epoll_create(int size);</code></pre><p>输入参数：需要多大的空间，调用calloc，需要监听多少文件描述符，便于创建红黑树。</p>
+<p>返回参数：返回一颗红黑树的树根</p>
+<h3 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl()"></a>epoll_ctl()</h3><pre><code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</code></pre><p>op: 操作：包括EPOLL_CTL_ADD/MOD/DEL<br>fd：对哪个文件描述符进行操作</p>
+<pre><code>struct epoll_event
+{
+    unint32_t events;--EPOLLIN/OUT/ERR
+    epoll_data_t data;
+}
+typedef union epoll_data
+{
+    void *ptr;--泛型指针，用于传回调函数的指针
+    int fd;
+    unint32_t u32;
+    unint64_t u64;
+}epoll_data_t;</code></pre><h3 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h3><pre><code>int epoll_wait(int epfd,struct epoll_event *events,int maxevents,int timeout)</code></pre><p>events:是一个传出参数，传出满足监听所有数组的首地址。<br>maxevents：数组容量<br>timeout:超时时间<br>返回：成功返回有多少个文件描述符就绪</p>
+<h3 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h3><pre><code>int epfd = epoll(10);  --epfd(句柄)
+struct epoll_event events;
+events.events = EPOLLIN;
+events.data.fd = lfd; 
+epoll_ctl(epfd,EPOLL_CTL_ADD,lfd,&amp;events);
+struct epoll_event evt[100];
+epoll_wait(epfd, evt, 100, 100);</code></pre><p>下面这幅图是一个epoll使用的例子。<br><img src="img/20180828214605.png" alt></p>
+<h2 id="触发方式-epoll-ET-LT"><a href="#触发方式-epoll-ET-LT" class="headerlink" title="触发方式 epoll_ET/LT"></a>触发方式 epoll_ET/LT</h2><p>epoll有两种触发方式，边沿触发和水平触发。分别对应高低电平转换和维持不变的时候。ET比LT效率要高，能够减少epoll_wait调用次数。从而提高效率。<br>水平模式是服务器读完所有的数据。默认方式是水平触发。</p>
+<p>使用:</p>
+<p>event = EPOLLIN|EPOLLET;</p>
+<p>假如一个客户端要传1000B的数据，epoll监听到了，报告给了服务器程序，程序只读了500B，那么epoll下面是否应该触发呢？如果触发，就是水平触发。如果不触发，就是边沿触发。举个例子，假如小明上学，老师见到小明一次就提醒他一次要写作业，这个叫水平触发；而老师最后放学的时候只说一次，放学要写作业，写不写是小明的事情，这个就是边沿触发。</p>
+<p>但是边沿触发模式下，加入客户端一直向服务器端发送数据，但是服务器端又只读很少，可能会造成缓冲区的累积。但是这种方法应用场景也可以是，加入客户端发送5000B的数据，其中50B可以供服务器判断是否需要，假如不需要那么把缓冲区清空一下就可以了，不用将全部数据读入。</p>
+<h2 id="非阻塞IO"><a href="#非阻塞IO" class="headerlink" title="非阻塞IO"></a>非阻塞IO</h2><p>边沿触发，利用while循环读数据，设置非阻塞模式。fcntl(O_NONBLOCK)；</p>
+<p>还有一种情况，服务器每次读500B才返回，但是客户端只发了200B，假如是水平出发那么服务器就会阻塞。但是服务器阻塞的时候没办法调用epoll进行监听，所以会产生死锁。非阻塞IO用fnctl函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag">#网络</a>
+          
+            <a href="/tags/压力测试/" rel="tag">#压力测试</a>
+          
+            <a href="/tags/webbench/" rel="tag">#webbench</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/13/压力测试工具/" rel="next" title="压力测试工具Webbench源码分析">
+                <i class="fa fa-chevron-left"></i> 压力测试工具Webbench源码分析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/26/C++标准库2/" rel="prev" title="C++标准库-算法">
+                C++标准库-算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select函数原型"><span class="nav-number">2.</span> <span class="nav-text">select函数原型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#四个函数"><span class="nav-number">2.1.</span> <span class="nav-text">四个函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select函数的缺点"><span class="nav-number">2.3.</span> <span class="nav-text">select函数的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器源码实现"><span class="nav-number">2.4.</span> <span class="nav-text">服务器源码实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#poll函数"><span class="nav-number">3.</span> <span class="nav-text">poll函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">3.1.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数原型"><span class="nav-number">3.2.</span> <span class="nav-text">函数原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-1"><span class="nav-number">3.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#epoll"><span class="nav-number">4.</span> <span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">4.1.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-create"><span class="nav-number">4.1.1.</span> <span class="nav-text">epoll_create()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-ctl"><span class="nav-number">4.1.2.</span> <span class="nav-text">epoll_ctl()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-wait"><span class="nav-number">4.1.3.</span> <span class="nav-text">epoll_wait</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-2"><span class="nav-number">4.1.4.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发方式-epoll-ET-LT"><span class="nav-number">4.2.</span> <span class="nav-text">触发方式 epoll_ET/LT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非阻塞IO"><span class="nav-number">4.3.</span> <span class="nav-text">非阻塞IO</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

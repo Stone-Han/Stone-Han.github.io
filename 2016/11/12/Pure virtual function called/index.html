@@ -1,0 +1,940 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="C++,error,翻译,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="本文来自http://www.artima.com/cppsource/pure_virtual.html 另附一个中文博客http://blog.csdn.net/liulina603/article/details/8931483 “纯虚函数被调用”是C++程序崩溃的时候有时弹出来的信息。这是什么意思呢？你能找到一些简单的、很好的文档来解释崩溃之后很容易就找到错误的程序。但是还有另外一种不容易">
+<meta name="keywords" content="C++,error,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pure virtual function called An explanation">
+<meta property="og:url" content="http://yoursite.com/2016/11/12/Pure virtual function called/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="本文来自http://www.artima.com/cppsource/pure_virtual.html 另附一个中文博客http://blog.csdn.net/liulina603/article/details/8931483 “纯虚函数被调用”是C++程序崩溃的时候有时弹出来的信息。这是什么意思呢？你能找到一些简单的、很好的文档来解释崩溃之后很容易就找到错误的程序。但是还有另外一种不容易">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-01T09:06:28.550Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pure virtual function called An explanation">
+<meta name="twitter:description" content="本文来自http://www.artima.com/cppsource/pure_virtual.html 另附一个中文博客http://blog.csdn.net/liulina603/article/details/8931483 “纯虚函数被调用”是C++程序崩溃的时候有时弹出来的信息。这是什么意思呢？你能找到一些简单的、很好的文档来解释崩溃之后很容易就找到错误的程序。但是还有另外一种不容易">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/12/Pure virtual function called/">
+
+
+  <title> Pure virtual function called An explanation | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Pure virtual function called An explanation
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T18:25:09+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/error/" itemprop="url" rel="index">
+                    <span itemprop="name">error</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文来自<a href="http://www.artima.com/cppsource/pure_virtual.html" target="_blank" rel="noopener">http://www.artima.com/cppsource/pure_virtual.html</a></p>
+<p>另附一个中文博客<a href="http://blog.csdn.net/liulina603/article/details/8931483" target="_blank" rel="noopener">http://blog.csdn.net/liulina603/article/details/8931483</a></p>
+<p>“纯虚函数被调用”是C++程序崩溃的时候有时弹出来的信息。这是什么意思呢？你能找到一些简单的、很好的文档来解释崩溃之后很容易就找到错误的程序。但是还有另外一种不容易被发现的错误也会产生相同的错误信息。如果你对你的错误一头雾水，这很可能意味着你的程序间接地调用了一个野指针。本文会阐明所有的原因。</p>
+<a id="more"></a>
+
+
+<h2 id="Object-Oriented-C-The-Programmer’s-View"><a href="#Object-Oriented-C-The-Programmer’s-View" class="headerlink" title="Object-Oriented C++: The Programmer’s View"></a>Object-Oriented C++: The Programmer’s View</h2><p>（如果你知道什么是纯虚函数和抽象类，你可以跳过这一部分）<br>在C++中，虚函数让相关的类的实例在运行时有不同的行为。（也就是运行时多态）：</p>
+<pre><code>class Shape {
+public:
+    virtual double area() const;
+    double value() const;
+    // Meyers 3rd Item 7:
+    virtual ~Shape();
+protected:
+    Shape(double valuePerSquareUnit);
+private:
+    double valuePerSquareUnit_;
+};
+
+class Rectangle : public Shape {
+public:
+    Rectangle(double width, double height, double valuePerSquareUnit);
+    virtual double area() const;
+    // Meyers 3rd Item 7:
+    virtual ~Rectangle();
+// ...
+};
+
+class Circle : public Shape {
+public:
+    Circle(double radius, double valuePerSquareUnit);
+    virtual double area() const;
+    // Meyers 3rd Item 7:
+    virtual ~Circle();
+// ...
+};
+
+double
+Shape::value() const
+{
+    // Area is computed differently, depending
+    // on what kind of shape the object is:
+    return valuePerSquareUnit_ * area();
+}</code></pre><p>(在析构函数前被注释掉的内容参考Scott Meyers’s <em>Effective C++</em>:”Declare destructors virtual in polymorphic base classes.”)</p>
+<p>在C++中，函数的接口通过函数声明实现。成员函数在类的定义中声明。函数的实现通过定义函数实现？（A function’s implementation is specified by defining the function）派生类可以重新定义函数，实现针对派生类的函数。当纯虚函数被调用的时候，选择的实现不是基于静态类型指针或者引用，而是基于指向的对象，这在运行时也是可以变化的。(?)</p>
+<pre><code>print(shape-&gt;area());    //Might invoke Circle::area()or Rectangle::area().</code></pre><p>纯虚函数声明之后不一定要定义。带有纯虚函数的类叫做抽象类，因为我们不可能创造这个类的实例。派生类必须定义所有继承的纯虚函数并且具体实现。</p>
+<pre><code>class AbstractShape {
+public:
+    virtual double area() const = 0;
+    double value() const;
+    // Meyers 3rd Item 7:
+    virtual ~AbstractShape();
+protected:
+    AbstractShape(double valuePerSquareUnit);
+private:
+    double valuePerSquareUnit_;
+protected:
+    AbstractShape(double valuePerSquareUnit);
+private:
+    double valuePerSquareUnit_;
+};</code></pre><p>Circle和Rectangle类继承AbstractShape类。下面这句话无法编译，即使有对应的构造函数。</p>
+<pre><code>// AbstractShape* p = new AbstractShape(value);</code></pre><p>但是下面这些可以：</p>
+<pre><code>Rectangle* pr = new Rectangle(height, weight, value);
+Circle* pc = new Circle(radius, value);
+
+AbstractShape* p = pr;
+p = pc;</code></pre><h2 id="Object-Oriented-C-Under-the-Covers"><a href="#Object-Oriented-C-Under-the-Covers" class="headerlink" title="Object Oriented C++: Under the Covers"></a>Object Oriented C++: Under the Covers</h2><p>(如果你已经知道了”vtbl”,你可以跳过这一部分）<br>这种运行时的魔法是如何发生的？<br>一般情况下，具有任何虚函数的类都有一个函数的指针数组，叫做”vtbl”。每一个这种类的实例都有一个类的指针，如下图所示：</p>
+<p>![1](Pure virtual function called/1.png)  </p>
+<p>如果带有虚函数的抽象类没有定义这个函数，那么在vtbl中会出现什么样的情况呢？通常，C++系统提供了一个特殊的函数，会显示出“Pure virtual function called”，并且停止程序。</p>
+<h2 id="Build’em-Up-Tear’em-Down"><a href="#Build’em-Up-Tear’em-Down" class="headerlink" title="Build’em Up, Tear’em Down"></a>Build’em Up, Tear’em Down</h2><p>当你构造一个派生类的实例的时候，发生了什么事情？如果这个类有vtbl，整个过程大致如下：</p>
+<p>Step 1: 构造顶层的基类：</p>
+<pre><code>1. 让实例指针指向基类的vtbl
+2. 构造基类实例成员变量
+3. 执行基类构造函数</code></pre><p>Step 2: 构造派生类：</p>
+<pre><code>1. 将实例指针指向派生类的vtbl
+2. 构造派生类的成员变量
+3. 执行派生类的构造函数</code></pre><p>析构通常倒叙，大概如下：</p>
+<p>Step 1: 析构派生类：</p>
+<pre><code>1. （实力指针已经指向派生类的vtbl）
+2. 执行析构函数
+3. 析构成员变量</code></pre><p>Step 2: 析构基类：</p>
+<pre><code>1. 指针指向基类的vtbl
+2. 执行基类析构函数
+3. 析构成员变量</code></pre><h2 id="Two-of-the-Classic-Blunders"><a href="#Two-of-the-Classic-Blunders" class="headerlink" title="Two of the Classic Blunders"></a>Two of the Classic Blunders</h2><p>如果你从基类的构造函数中尝试调用一个虚函数会怎么样？</p>
+<pre><code>// From sample program 1:
+AbstractShape(double valuePerSquareUnit)
+    : valuePerSquareUnit_(valuePerSquareUnit)
+{
+    // ERROR: Violation of Meyers 3rd Item 9!
+    std::cout &lt;&lt; &quot;creating shape, area = &quot; &lt;&lt; area() &lt;&lt; std::endl;
+}</code></pre><p>这显然是一个调用纯虚函数的例子。编译器会提示我们这种错误。如果基类的析构函数直接调用纯虚函数你也会得到相同的提示。</p>
+<p>如果情况稍微复杂一点，错误可能没有那么明显：</p>
+<pre><code>// From sample program 3:
+AbstractShape::AbstractShape(double valuePerSquareUnit)
+    : valuePerSquareUnit_(valuePerSquareUnit)
+{
+    // ERROR: Indirect violation of Meyers 3rd Item 9!
+    std::cout &lt;&lt; &quot;creating shape, value = &quot; &lt;&lt; value() &lt;&lt; std::endl;
+}</code></pre><p>这个基类的构造函数就是step 1(3)中所说的，它调用了一个成员函数的实例value()，而这个实例调用纯虚函数area()。这个对象现在仍然是AbstracShape。当它尝试去调用纯虚函数的时候发生了什么？你的程序很有可能以一个类似“pure virtual function called”的信息弹出而崩溃。</p>
+<p>同样，在析构函数中简介地调用纯虚函数也能导致这类信息。所有通过partially-constructed调用虚函数的例子都会出这个错误。</p>
+<p>这些就是导致pure virtual function called信息的根源。从后续程序的检查中可以很快地找出错误，堆栈调用信息能够清楚地指向问题所在。</p>
+<h2 id="Pointing-Out-Blame"><a href="#Pointing-Out-Blame" class="headerlink" title="Pointing Out Blame"></a>Pointing Out Blame</h2><p>还有不止一种情况会导致这种错误，但是在书中或者网上都没有见到过明显的描述。</p>
+<p>考虑下面的代码：</p>
+<pre><code>// From sample program 5:
+    AbstractShape* p1 = new Rectangle(width, height, valuePerSquareUnit);
+    std::cout &lt;&lt; &quot;value = &quot; &lt;&lt; p1-&gt;value() &lt;&lt; std::endl;
+    AbstractShape* p2 = p1;  // Need another copy of the pointer.
+    delete p1;
+    std::cout &lt;&lt; &quot;now value = &quot; &lt;&lt; p2-&gt;value() &lt;&lt; std::endl;</code></pre><p>我们来一行一行看。</p>
+<pre><code>AbstractShape* p1 = new Rectangle(width, height, valuePerSquareUnit);</code></pre><p>创建了一个新对象。经历两个步骤：1.类似基类的行为；2. 类似派生类的行为</p>
+<pre><code>std::cout &lt;&lt; &quot;value = &quot; &lt;&lt; p1-&gt;value() &lt;&lt; std::endl;</code></pre><p>看起来似乎一切正常。</p>
+<pre><code>AbstractShape* p2 = p1;  // Need another copy of the pointer.</code></pre><p>p1可能会发生一些事情，所以我们做一份它的拷贝。</p>
+<pre><code>delete p1;</code></pre><p>对象的析构也要两个步骤: 1. where the object acts like a derived class instance; 2. where it acts like a base class instance</p>
+<p>注意到p1在delete之后有可能变化。编译器可以使指针在析构他们指向的数据之后清零。还好我们有一份拷贝p2，不变。</p>
+<pre><code>std::cout &lt;&lt; &quot;now value = &quot; &lt;&lt; p2-&gt;value() &lt;&lt; std::endl;</code></pre><p>啊哦。<br>这是另一种典型错误：间接调用野指针。野指针就是它指向的对象已经被delete或者主存空间已经被释放。</p>
+<p>所以现在p2指向的是前对象。这就好比什么？根据C++标准，这叫做“undefined”。这个技术术语的意思是，实际上任何事情都有可能发生：程序能够崩溃或者继续跑，但是生产垃圾结果，或者给Bjarne Stroustrup（C++发明者）发送一封email说你有多丑。不同的行为根据编译器或者机器或者运行的不同而不同。在实际中，可能会有一下几个可能：</p>
+<ul>
+<li>主存可能被标记为deallocated。任何尝试获取它的都被定义为野指针。</li>
+<li>主存可能被恶意scrambled。在释放之后主存管理系统可能写入一些垃圾信息</li>
+<li>主存可能被重用。</li>
+<li>主存可能就那样了。</li>
+</ul>
+<p>最后一个情况比较有意思，什么叫“就那样了”？在这种情况下，它是一个抽象类的实例，所以也就是vtbl。那么我们从vtbl下调用一个纯虚函数会发生什么？</p>
+<p>Pure virtual function called.</p>
+<h2 id="Meanwhile-Back-in-the-Real-World"><a href="#Meanwhile-Back-in-the-Real-World" class="headerlink" title="Meanwhile, Back in the Real World"></a>Meanwhile, Back in the Real World</h2><p>理论不错，在实际中会发生什么呢？</p>
+<p>下面测试了不同错误方式在不同环境下的情况。</p>
+<h2 id="Owning-Up"><a href="#Owning-Up" class="headerlink" title="Owning Up"></a>Owning Up</h2><p>那么应该如何避免这种情况呢？</p>
+<p>前四种情况比较好解决。注意错误信息。</p>
+<p>第五种例子的“野指针”怎么办呢？不管什么语言，编程人员都应该设计对象的归属。什么东西属于哪个对象。归属可能是：</p>
+<ul>
+<li>转换别的东西</li>
+<li>没有转换归属权的“借出”</li>
+<li>共享：通过reference counts或者garbage collection</li>
+</ul>
+<p>什么“东西”能拥有一个对象呢？</p>
+<ul>
+<li>另一个对象。</li>
+<li>对象的集合。比如所有的smart pointers指向被拥有的对象。</li>
+<li>函数。当函数被调用的时候，它可能假设归属权（转移）或者没有（借出).函数有局部变量，但是不一定有局部变量指针指向的对象。</li>
+</ul>
+<p>在我们的例子中没有清晰的归属关系。一个函数创建了一个对象，并且分配了两个指针。但是谁拥有这个对象呢？可能是函数，但是不管哪种情况，都应该负责避免这种问题。它应该用一个“dumb”指针（删除后显式归零）或者smart pointer 而不是两个指针。</p>
+<p>在实际中，远没有这么简单。对象可能从一个模块传递到另一个完全不同的模块，代码也可能由完全不同的人写。对象的归属问题能跨越很长的距离。</p>
+<p>任何时候你传递对象的时候都要清晰地知道归属权的问题。这是个简单的问题，但是没有问题能神奇地自己回答。思考是没有替代品的。</p>
+<p>为自己考虑不一定要自己思考。Tom Cargill的“Localized Ownership”阐述了一些方法。Scott Meyers Iterm13 和Item14 。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+            <a href="/tags/error/" rel="tag">#error</a>
+          
+            <a href="/tags/翻译/" rel="tag">#翻译</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/25/线程池小试/" rel="next" title="线程池小试">
+                <i class="fa fa-chevron-left"></i> 线程池小试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/01/ubuntu下mysql简单使用/" rel="prev" title="ubuntu下mysql简单使用">
+                ubuntu下mysql简单使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-Oriented-C-The-Programmer’s-View"><span class="nav-number">1.</span> <span class="nav-text">Object-Oriented C++: The Programmer’s View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-Oriented-C-Under-the-Covers"><span class="nav-number">2.</span> <span class="nav-text">Object Oriented C++: Under the Covers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build’em-Up-Tear’em-Down"><span class="nav-number">3.</span> <span class="nav-text">Build’em Up, Tear’em Down</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Two-of-the-Classic-Blunders"><span class="nav-number">4.</span> <span class="nav-text">Two of the Classic Blunders</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pointing-Out-Blame"><span class="nav-number">5.</span> <span class="nav-text">Pointing Out Blame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meanwhile-Back-in-the-Real-World"><span class="nav-number">6.</span> <span class="nav-text">Meanwhile, Back in the Real World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Owning-Up"><span class="nav-number">7.</span> <span class="nav-text">Owning Up</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

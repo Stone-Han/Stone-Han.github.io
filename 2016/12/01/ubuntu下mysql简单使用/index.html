@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="学习笔记,mysql,ubuntu,数据库查询,手册,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="源于师兄问的一个问题，如何根据身份证号统计当天上线的男女人数比例，重复登录只计算一次。">
+<meta name="keywords" content="学习笔记,mysql,ubuntu,数据库查询,手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下mysql简单使用">
+<meta property="og:url" content="http://yoursite.com/2016/12/01/ubuntu下mysql简单使用/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="源于师兄问的一个问题，如何根据身份证号统计当天上线的男女人数比例，重复登录只计算一次。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-12T11:52:14.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu下mysql简单使用">
+<meta name="twitter:description" content="源于师兄问的一个问题，如何根据身份证号统计当天上线的男女人数比例，重复登录只计算一次。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/01/ubuntu下mysql简单使用/">
+
+
+  <title> ubuntu下mysql简单使用 | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ubuntu下mysql简单使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-01T16:01:09+08:00" content="2016-12-01">
+              2016-12-01
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/手册/" itemprop="url" rel="index">
+                    <span itemprop="name">手册</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>源于师兄问的一个问题，如何根据身份证号统计当天上线的男女人数比例，重复登录只计算一次。</p>
+<a id="more"></a>
+
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo service mysql start
+mysql:unrecongnized service
+sudo apt-get install mysql-server</code></pre><p>中间会设置一下root的密码<br>测试是否安装：</p>
+<pre><code>mysql -V</code></pre><p>注意V是大写</p>
+<h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><pre><code>sudo service mysql start</code></pre><h1 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h1><pre><code>mysql -u root -psho
+//输入密码
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 48
+Server version: 5.5.55-0ubuntu0.14.04.1 (Ubuntu)</code></pre><ul>
+<li>注意这里命令要以;结束</li>
+</ul>
+<h1 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h1><pre><code>show databases;</code></pre><h1 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h1><pre><code>create database student;</code></pre><h1 id="新建表"><a href="#新建表" class="headerlink" title="新建表"></a>新建表</h1><pre><code>use student;
+create table s(loginID varchar(20), ID varchar(18), loginDate DATETIME );
+show tables;
+
+desc s;    //查看表结构
+select * from s;      //查看表中的内容
+
++---------+------+---------------------+
+| loginID | ID   | loginDate           |
++---------+------+---------------------+
+| 1       | 232  | 0000-00-00 00:00:00 |
+| 2       | 212  | 0000-00-00 00:00:00 |
+| 3       | 202  | 0000-00-00 00:00:00 |
+| 3       | 202  | 0000-00-00 00:00:00 |
+| 3       | 202  | 0000-00-00 00:00:00 |
++---------+------+---------------------+
+
+
+select *  from s  where SubString(ID,2,1) in (1,3,5,7,9);//查看表中ID字段倒数第二位为奇数的单元
+select *  from s  where SubString(ID,2,1) in (0,2,4,6,8);
+select *  from s  where SubString(ID,2,1) in (0,2,4,6,8) group by loginID;//每个ID只计数一次
+select *  from s  where SubString(ID,2,1) in (1,3,5,7,9);//对上面计数</code></pre><p>利用上面的语句可以通过身份证倒数第二位判断性别，然后对性别进行计数。<br>但是这样要对数据库进行两次查询</p>
+<pre><code>select sum( case when SubString(ID,2,1) in (0,2,4,6,8) then 1 else 0 end) as women from s ;
+select sum( case when SubString(ID,2,1) in (0,2,4,6,8) then 1 else 0 end) as women, sum( case when SubString(ID,2,1) in (1,3,5,7,9) then 1 else 0 end) as men from s ;
++-------+------+
+| women | men  |
++-------+------+
+|     3 |    2 |
++-------+------+</code></pre><p>把sum 换count结果是5,5</p>
+<p>一次统计出了男女人数，但是loginID可能有重复的，如何只计算一次?<br>加上group by loginID 变成下面</p>
+<pre><code>+-------+------+
+| women | men  |
++-------+------+
+|     0 |    1 |
+|     0 |    1 |
+|     3 |    0 |
++-------+------+
+
+    select sum( case when SubString(ID,2,1) in (0,2,4,6,8) then 1 else 0 end) as women, 
+                sum( case when SubString(ID,2,1) in (1,3,5,7,9) then 1 else 0 end) as men 
+                from (select distinct * from s) as ss;
+
++-------+------+
+| women | men  |
++-------+------+
+|     1 |    2 |
++-------+------+
+1 row in set (0.00 sec)</code></pre><p>但是总感觉这样做有点麻烦啊。不知道有没有更简单的方法。</p>
+<p>参考<a href="https://zhidao.baidu.com/question/1959655383234345540.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/1959655383234345540.html</a> </p>
+<p>数据库中有两张表,NAMES表，保存user_id, user_name<br>user_log表，保存id, user_id, time<br>查找2018年内，登录次数超过100次的所有用户，输出用户名和对应的登录次数，并按登陆次数降序排列。</p>
+<pre><code>`select Name, c
+from (
+    SELECT  user_log.user_id,count(user_log.user_id) as c
+    FROM user_log
+    WHERE  time = &apos;2018&apos;
+    group by user_log.user_id
+    having count(user_log.user_id)&gt;2
+    order by c desc
+) a, NAMES
+where NAMES.user_id=a.user_id`</code></pre><p>数据库创建语句：</p>
+<pre><code>/* Create a table called NAMES */
+CREATE TABLE NAMES(user_id integer PRIMARY KEY, Name text);
+CREATE TABLE user_log(Id integer PRIMARY KEY,user_id integer,time text);
+/* Create few records in this table */
+INSERT INTO NAMES VALUES(1,&apos;Tom&apos;);
+INSERT INTO NAMES VALUES(2,&apos;Lucy&apos;);
+INSERT INTO NAMES VALUES(3,&apos;Frank&apos;);
+INSERT INTO NAMES VALUES(4,&apos;Jane&apos;);
+INSERT INTO NAMES VALUES(5,&apos;Robert&apos;);
+
+INSERT INTO user_log VALUES(1, 1, &apos;2018&apos;);
+INSERT INTO user_log VALUES(2, 1, &apos;2017&apos;);
+INSERT INTO user_log VALUES(3, 1, &apos;2018&apos;);
+INSERT INTO user_log VALUES(4, 1, &apos;2018&apos;);
+
+
+INSERT INTO user_log VALUES(5, 2, &apos;2018&apos;);
+INSERT INTO user_log VALUES(6, 2, &apos;2018&apos;);
+INSERT INTO user_log VALUES(7, 2, &apos;2018&apos;);
+INSERT INTO user_log VALUES(8, 2, &apos;2018&apos;);
+COMMIT;</code></pre><p>在线编程网址<a href="http://www.compileonline.com/execute_sql_online.php" target="_blank" rel="noopener">http://www.compileonline.com/execute_sql_online.php</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag">#学习笔记</a>
+          
+            <a href="/tags/mysql/" rel="tag">#mysql</a>
+          
+            <a href="/tags/ubuntu/" rel="tag">#ubuntu</a>
+          
+            <a href="/tags/数据库查询/" rel="tag">#数据库查询</a>
+          
+            <a href="/tags/手册/" rel="tag">#手册</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/12/Pure virtual function called/" rel="next" title="Pure virtual function called An explanation">
+                <i class="fa fa-chevron-left"></i> Pure virtual function called An explanation
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/21/hexo博客换电脑/" rel="prev" title="hexo博客换电脑">
+                hexo博客换电脑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动服务"><span class="nav-number">2.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#登录"><span class="nav-number">3.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看数据库"><span class="nav-number">4.</span> <span class="nav-text">查看数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建数据库"><span class="nav-number">5.</span> <span class="nav-text">新建数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建表"><span class="nav-number">6.</span> <span class="nav-text">新建表</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

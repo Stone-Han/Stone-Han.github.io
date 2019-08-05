@@ -1,0 +1,883 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="教程,hexo,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="概述本文主要侧重搭建环境中一些问题的解决，一些常规步骤可以参考其他教程。  搭建环境：环境搭建与常见问题 发布一篇博文：hexo基本语法与命令">
+<meta name="keywords" content="教程,hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在windows下搭建hexo+github的个人博客的总结">
+<meta property="og:url" content="http://yoursite.com/2016/07/01/windows下hexo-github个人博客搭建/index.html">
+<meta property="og:site_name" content="StoneHan&#39;s blog">
+<meta property="og:description" content="概述本文主要侧重搭建环境中一些问题的解决，一些常规步骤可以参考其他教程。  搭建环境：环境搭建与常见问题 发布一篇博文：hexo基本语法与命令">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/7f318987jw1f73slqkdh1j20ni0ghgpk.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/7f318987jw1f73t5h1etnj20fi02v0t2.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/7f318987jw1f74mlqdxeuj208a0hat95.jpg">
+<meta property="og:updated_time" content="2017-06-01T13:12:29.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在windows下搭建hexo+github的个人博客的总结">
+<meta name="twitter:description" content="概述本文主要侧重搭建环境中一些问题的解决，一些常规步骤可以参考其他教程。  搭建环境：环境搭建与常见问题 发布一篇博文：hexo基本语法与命令">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/7f318987jw1f73slqkdh1j20ni0ghgpk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/01/windows下hexo-github个人博客搭建/">
+
+
+  <title> 在windows下搭建hexo+github的个人博客的总结 | StoneHan's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StoneHan's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">韩苏东的个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在windows下搭建hexo+github的个人博客的总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-01T16:01:09+08:00" content="2016-07-01">
+              2016-07-01
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/教程/" itemprop="url" rel="index">
+                    <span itemprop="name">教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文主要侧重搭建环境中一些问题的解决，一些常规步骤可以参考其他教程。</p>
+<ol>
+<li>搭建环境：环境搭建与常见问题</li>
+<li>发布一篇博文：hexo基本语法与命令</li>
+</ol>
+<a id="more"></a>
+
+<p>因为没钱买VPN和域名，平时用到的机会也不多，所以以下都不涉及购买的问题。但是有钱了还是想买VPN，稳定多了T T</p>
+<p>参考教程：<br><a href="http://hifor.net/2015/07/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-hexo-github/" target="_blank" rel="noopener">零基础免费搭建个人博客</a></p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>下载地址：<a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">git for windows</a></p>
+<p>这里没有什么坑，下载好安装包一步步安装就可以了。</p>
+<h2 id="安装Github"><a href="#安装Github" class="headerlink" title="安装Github"></a>安装Github</h2><p>这是Github官网的地址：<br><a href="https://desktop.github.com/" target="_blank" rel="noopener">Github</a></p>
+<p><strong>但是我下载了这个只有几百KB的安装程序后，点击安装显示我网络问题，在线安装不了，试了好几次都不行。</strong><br>于是我搜索到网上这个答案：<a href="https://www.zhihu.com/question/23110947" target="_blank" rel="noopener">知乎</a></p>
+<p><strong>下载离线安装包</strong>，愉快安装完成。</p>
+<p>注册和配置SSH的步骤我就不谈了，可以参考上面给出的网站。</p>
+<h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>地址：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a><br>这个也没什么坑，安装完<br><code>node -v</code>，出现版本号即成功。</p>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>在一个盘新建一个文件夹，比如d:/hexo<br>右键选择Git bash here，输入</p>
+<pre><code>`npm install -g cnpm --registry=https://registry.npm.taobao.org`</code></pre><p>然后进行hexo的初始化</p>
+<p>输入<code>hexo init</code></p>
+<p><code>cnpm install</code><br>安装生成器<br>输入<code>hexo s -g</code><br>然后打开浏览器，输入localhost:4000就可以了。</p>
+<p>但是之前的配置都不是重点，重点是<strong>我输入了localhost:4000什么都没有出现！</strong><br>于是我又开始了我漫长的寻找之旅。</p>
+<p>搜索了很多，终于在<a href="https://segmentfault.com/q/1010000003870970/a-1020000003871550" target="_blank" rel="noopener">segmentfault</a>里找到答案。应该是4000的端口被占用了╭(╯^╰)╮</p>
+<p>修改端口号<br><code>hexo s -p 4001</code></p>
+<p>果断能访问了！<br>看到了这个熟悉的页面。</p>
+<p><img src="http://ww4.sinaimg.cn/large/7f318987jw1f73slqkdh1j20ni0ghgpk.jpg" alt="hexo"></p>
+<h2 id="同步到Github"><a href="#同步到Github" class="headerlink" title="同步到Github"></a>同步到Github</h2><p>这里要修改hexo下的_config.yml文件。</p>
+<p><strong>注意注意注意！每个冒号后面有一个半角冒号！</strong></p>
+<p>然后<br><code>nmp install hexo-deployer-git -save</code></p>
+<p><code>hexo g</code></p>
+<p><code>hexo d</code></p>
+<p>就可以啦！<br>如果你之前Github域名都配置好了的话，输入<br><code>github-your-name.github.io</code>就可以访问你的个人主页啦！</p>
+<h1 id="发布一篇博文"><a href="#发布一篇博文" class="headerlink" title="发布一篇博文"></a>发布一篇博文</h1><h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>下面可以写一篇文章来试试。</p>
+<p><code>hexo new &quot;hello-world&quot;</code></p>
+<p>然后下载markdownpad对.md文件进行编辑。</p>
+<p>我安装好了之后不能正常使用，还要下载一个<a href="http://markdownpad.com/faq.html#livepreview-directx" target="_blank" rel="noopener">markdownpad</a>这个东西才能正常使用。</p>
+<p>总之处处都是坑T T</p>
+<h2 id="发布图片"><a href="#发布图片" class="headerlink" title="发布图片"></a>发布图片</h2><p>可以参照markdown的基础语法写文章，我特别想说的是<strong>发图片</strong>的问题。</p>
+<p>一些教程推荐的图床和七牛我都没法正常使用，然后有人推荐了<a href="http://weibotuchuang.sinaapp.com/" target="_blank" rel="noopener">微博图床</a>，下载了插件之后，由于不是chrome官方的插件，所以没有办法启用。</p>
+<p>可以将.crx的插件换成.zip，然后解压。</p>
+<p>然后打开chrome://extensions/</p>
+<p><img src="http://ww3.sinaimg.cn/large/7f318987jw1f73t5h1etnj20fi02v0t2.jpg" alt="chrome"></p>
+<p>开启开发者模式，然后加载已解压的扩展程序，选择你刚刚解压的文件。<br>点击启用微博图床，就可以啦~</p>
+<p>使用方式是在chrome地址栏右面你会发现出现了一个新的图标，点击它，会出现一个灰色的框框，把图片拖进去就会生成一个地址。</p>
+<p>然后在.md文件里<code>![]()</code>在<code>()</code>中贴入图片地址就可以啦！</p>
+<p>编辑好文件之后还是<br><code>hexo g</code></p>
+<p><code>hexo s -p 4001</code></p>
+<p>就可以在浏览器里看到你发布的新文章了。</p>
+<hr>
+<p>2017.6.1更新</p>
+<p>最近写博文的时候发现微博图床不好用了，然后在网上一搜，发现出现了新技术。</p>
+<p>参考网站<a href="http://www.tuicool.com/articles/umEBVfI" target="_blank" rel="noopener">http://www.tuicool.com/articles/umEBVfI</a></p>
+<p>具体操作就是在hexo 目录下执行<br>    npm install <a href="https://github.com/CodeFalling/hexo-asset-image" target="_blank" rel="noopener">https://github.com/CodeFalling/hexo-asset-image</a> –save</p>
+<p>然后如果你的文章名为article.md，那么在这个文件夹下面建一个同名文件夹。这个文件夹下存放你要使用的图片。加入图片为1.jpg。然后在你博文要用的地方使用</p>
+<pre><code>![1](article/1.jpg)</code></pre><p>就可以了.</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><p>一些好看的主题可以参考这里：<br><a href="https://hexo.io/themes/" target="_blank" rel="noopener">Themes</a></p>
+<p><a href="https://www.zhihu.com/question/24422335" target="_blank" rel="noopener">有哪些好看的hexo主题-知乎</a></p>
+<p>我选择了<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a>主题，感觉配色很好看。</p>
+<p>另外，喜欢NexT主题的也非常多，感觉这个主题更适合男生一点。</p>
+<p>同样，给出教程链接，具体配置我就不说了。</p>
+<p><a href="http://www.tuicool.com/articles/zeIZJzv" target="_blank" rel="noopener">hexo博客更换主题</a></p>
+<p><a href="http://www.jianshu.com/p/db7e64d86067" target="_blank" rel="noopener">hexo博客配置主题和写作</a></p>
+<p><a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">NexT文档</a></p>
+<p>需要修改hexo主目录和themes下的config文件。</p>
+<p><strong>注意注意注意！每个冒号后面有一个半角冒号！</strong></p>
+<p><strong>注意注意注意！每个冒号后面有一个半角冒号！</strong></p>
+<p><strong>注意注意注意！每个冒号后面有一个半角冒号！</strong></p>
+<p>重要的事情说三遍。</p>
+<p><strong>在这里遇到的第一个坑是换头像的问题。</strong></p>
+<p>明明在博文内容里显示的好好的图片，不知道为什么换头像就是不成功。一开始怀疑是我的config文件配置的问题，可是查了很多教程都没有提头像的问题。<br>后来我在<a href="https://segmentfault.com/q/1010000006681811" target="_blank" rel="noopener">Segmentfault</a>里提问，经提醒发现头像连接前面自动加了一个null,变成了<code>src=&quot;nullhttp://ww2.sinaimg.cn/...jpg&quot;</code><br>后来我想到去原大大的github里看看是否有解决方案，然后终于找到了解决方法。传送原github地址</p>
+<p><a href="https://github.com/litten/hexo-theme-yilia/issues/288" target="_blank" rel="noopener">litten/hexo-theme-yilia</a></p>
+<p>应该是没有设置root目录的原因。</p>
+<p><strong>第二个坑</strong>是，我发现别人的Yilia主题都有一些动画，点击小房子的时候还会弹出来一个菜单，但是我的没有。</p>
+<p>像下面这样：</p>
+<p><img src="http://ww4.sinaimg.cn/large/7f318987jw1f74mlqdxeuj208a0hat95.jpg" alt="img"></p>
+<p>后来我觉得这个可能也是root的原因，然后在issue里找，发现并没有解决方法，然后我看到有人<a href="https://github.com/litten/hexo-theme-yilia/pulls" target="_blank" rel="noopener">pull requests</a>，说cancel root，我想这个可能就是解决方法，然后我改掉了main.js和after-footer.ejs文件。</p>
+<p>终于搞成上面的样子啦！</p>
+<p>开心！</p>
+<p>发现yilia的插件不是很丰富，所以还是换成了next。<br>next的配置教程很强大。</p>
+<p>官网的连接在这：<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">next</a></p>
+<p>照着官网的步骤一步一步做就可以啦。<br>但是我这个体质还是个问题，就是在写网站的description的时候，中文总是乱码。搜了好久，还是没有解决这个问题，于是我去<a href="https://segmentfault.com/q/1010000007422607?_ea=1388205" target="_blank" rel="noopener">segmentfault</a>上提了个问。也是等了好久，才有人回答这个问题，然后他把他的配置原文发给我，我一开始用写字板打开发现是乱码，这才想到有可能是编码错误。之前在记事本里改的UTF-8编码，不知道为什么不管用。于是我就下了个notepad++，改成UTF-8编码。果然顺利显示中文。</p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>2017.6.1更新<br>想顺便装个评论，但是发现自己版本是5.0.2，以前的多说不能用了。其他的要翻墙。<br>注册了网易云跟帖，但是不支持二级域名。所以一直返回url已经注册的错误。<br>所以暂时搁置一下评论。</p>
+<p>等日后更新next或者有新的评论。<br>这个是友言的，但是试了没用<a href="http://www.jianshu.com/p/4729e92fddbe" target="_blank" rel="noopener">http://www.jianshu.com/p/4729e92fddbe</a></p>
+<p>分享的按钮太丑了所以去掉了。</p>
+<p>网站统计一看站点浏览次数很多吓我一跳。但是觉得还是想纯粹一点所以去掉了。</p>
+<p>站内搜索也没有可用的。</p>
+<p>看来有空要更新一下了。<br>下一步更新好之后还可以做一下SEO优化。<a href="https://segmentfault.com/a/1190000002436096" target="_blank" rel="noopener">https://segmentfault.com/a/1190000002436096</a></p>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>遇到坑的时候总想放弃，但是坚持一下还是成功了，因为真的太想要一个属于自己的独立博客了。但是我对github和hexo了解还是不深入，不知道为什么要一步步这样做，接下来还是要努力呀。</p>
+<p>万事开头难，然后中间难，最后结尾难。希望自己能保持这份热情，把博客经营下去。</p>
+<p>后面遇到什么问题我还会更，毕竟我是个容易遇到坑的少女体质╮(╯▽╰)╭</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/教程/" rel="tag">#教程</a>
+          
+            <a href="/tags/hexo/" rel="tag">#hexo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/30/洒鸡汤的方式简单点-大学四年应该如何度过/" rel="prev" title="撒鸡汤的方式简单点-大学四年应该如何度过">
+                撒鸡汤的方式简单点-大学四年应该如何度过 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+            <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/img/3.jpg" alt="StoneHan">
+          <p class="site-author-name" itemprop="name">StoneHan</p>
+          <p class="site-description motion-element" itemprop="description">想把你写成一首歌，想养一只猫</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Stone-Han" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2133952903/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Git"><span class="nav-number">2.1.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Github"><span class="nav-number">2.2.</span> <span class="nav-text">安装Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Node-js"><span class="nav-number">2.3.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Hexo"><span class="nav-number">2.4.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步到Github"><span class="nav-number">2.5.</span> <span class="nav-text">同步到Github</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#发布一篇博文"><span class="nav-number">3.</span> <span class="nav-text">发布一篇博文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#写文章"><span class="nav-number">3.1.</span> <span class="nav-text">写文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布图片"><span class="nav-number">3.2.</span> <span class="nav-text">发布图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更换主题"><span class="nav-number">3.3.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件"><span class="nav-number">3.4.</span> <span class="nav-text">插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后话"><span class="nav-number">4.</span> <span class="nav-text">后话</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneHan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2135402"></script>
+		<!-- UY END -->
+    
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
